@@ -17,28 +17,29 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.24.4"  # ✅ Recommended stable version (LTS compatible)
+          flutter-version: "3.24.4"
 
       - name: Verify Flutter version
         run: flutter --version
 
       - name: Clean project
+        working-directory: desco_receipt_printer
         run: flutter clean
 
-      - name: Fix permissions
-        run: chmod +x ./gradlew || true
-
       - name: Install dependencies
+        working-directory: desco_receipt_printer
         run: flutter pub get
 
       - name: Analyze project
+        working-directory: desco_receipt_printer
         run: flutter analyze || true
 
       - name: Build release APK
+        working-directory: desco_receipt_printer
         run: flutter build apk --release
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: desco-app-release
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: desco_receipt_printer/build/app/outputs/flutter-apk/app-release.apk
